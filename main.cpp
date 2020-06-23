@@ -12,7 +12,7 @@ void loop() {
   Serial.println(" C");
   
   digitalWrite(2, temperature > 20);
-  digitalWrite(2, temperature < 20);
+  digitalWrite(3, temperature < 20);
   delay(1000); // Wait for 1000 millisecond(s)
 }
 
