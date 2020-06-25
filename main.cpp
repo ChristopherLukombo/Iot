@@ -1,29 +1,30 @@
-void setup(){
-  Serial.begin(9600);
-  // Sorties
-  pinMode(2, OUTPUT); // rouge
-  pinMode(3, OUTPUT); // vert
+#include <SoftwareSerial.h>
+
+SoftwareSerial mySerial = SoftwareSerial(2,3);
+
+const int SERIAL_BEGIN = 9600;
+const int LOOP_DELAY = 3000;
+const int ANALOG_PIN = 0;
+
+// capteur de temperature
+void setup()
+{
+  mySerial.begin(SERIAL_BEGIN);
+  Serial.begin(SERIAL_BEGIN);
 }
 
-void loop() {
+void loop()
+{
+  delay(LOOP_DELAY);
   float temperature = readTemperature();
-  Serial.print("reading Temp : ");
-  Serial.print(temperature);
-  Serial.println(" C");
-  
-  digitalWrite(2, temperature > 20);
-  digitalWrite(3, temperature < 20);
-  delay(1000); // Wait for 1000 millisecond(s)
+  mySerial.println(temperature);
 }
 
 float readTemperature() {
-  int readingTempBin = analogRead(0);
+  int readingTempBin = analogRead(ANALOG_PIN);
   
   float tempdiv = readingTempBin * 5;
   tempdiv /= 1024;
-  
-  Serial.print("read mV : ");
-  Serial.println(tempdiv);
   float tempDeg = tempdiv - 0.500;
   tempDeg /= 0.010;
   return tempDeg;
